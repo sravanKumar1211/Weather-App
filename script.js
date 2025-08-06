@@ -129,3 +129,18 @@
     searchBar.addEventListener('keydown', e => {
       if (e.key === 'Enter') submitBtn.click();
     });
+
+    /* ==================== Validate & Fetch ==================== */
+    function validateAndFetch(city) {
+      if (!city || city.trim().length < 2) {
+        showPopup("Please enter a valid city name.", true);
+        return;
+      }
+      fetchWeatherByCity(city.trim());
+    }
+
+    /* ==================== Search Button ==================== */
+    submitBtn.addEventListener('click', () => {
+      const city = searchBar.value.trim();
+      validateAndFetch(city);
+    });
