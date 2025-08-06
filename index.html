@@ -47,6 +47,81 @@
       </label>
     </div>
   </div>
+
+
+   <!-- Layout -->
+  <main class="flex-1 flex flex-col md:flex-row max-w-7xl mx-auto gap-8 px-2 md:px-6 w-full">
+    <section class="w-full md:w-[32%] flex flex-col gap-8 mb-4">
+      <div
+        class="bg-white bg-opacity-80 rounded-xl p-6 mb-4 shadow-md flex flex-col gap-2 items-start min-h-[170px]">
+        <div id="city-name" class="text-3xl font-bold text-blue-700">-</div>
+        <div class="text-5xl font-semibold text-gray-800 flex items-baseline gap-2">
+          <span id="temperature">-</span><span id="unitsign" class="text-lg">°C</span>
+        </div>
+        <div id="weatherDesc" class="text-base text-gray-500">-</div>
+        <div class="flex space-x-4 text-gray-600 mt-2">
+          <span id="date">-</span>
+        </div>
+        <div id="custom-alert" class="text-red-600 font-semibold mt-2 hidden"></div>
+      </div>
+      <div class="bg-white bg-opacity-80 rounded-xl shadow-md p-4 min-h-[180px]">
+        <div class="font-semibold text-lg mb-4">Coming 5 Days</div>
+        <div id="forecast-list" class="flex flex-col gap-3 min-h-[120px]"></div>
+      </div>
+    </section>
+    <section class="w-full md:w-[68%] grid grid-rows-3 gap-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 h-full">
+        <div
+          class="bg-white bg-opacity-80 rounded-xl shadow p-6 flex flex-col items-center justify-center min-h-[110px]">
+          <span class="text-lg font-semibold text-gray-600">Humidity</span>
+          <span id="humidity" class="text-2xl font-bold text-blue-700">-</span>
+        </div>
+        <div
+          class="bg-white bg-opacity-80 rounded-xl shadow p-6 flex flex-col items-center justify-center min-h-[110px]">
+          <span class="text-lg font-semibold text-gray-600">Pressure</span>
+          <span id="pressure" class="text-2xl font-bold text-blue-700">-</span>
+        </div>
+        <div
+          class="bg-white bg-opacity-80 rounded-xl shadow p-6 flex flex-col items-center justify-center min-h-[110px]">
+          <span class="text-lg font-semibold text-gray-600">Feels Like</span>
+          <span id="feelslike" class="text-2xl font-bold text-blue-700">-</span>
+        </div>
+        <div
+          class="bg-white bg-opacity-80 rounded-xl shadow p-6 flex flex-col items-center justify-center min-h-[110px]">
+          <span class="text-lg font-semibold text-gray-600">Visibility</span>
+          <span id="visibility" class="text-2xl font-bold text-blue-700">-</span>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row gap-4 h-full">
+        <div class="bg-white bg-opacity-80 rounded-xl shadow p-6 flex-1 flex flex-col min-h-[120px]">
+          <span class="font-semibold text-gray-600 mb-2">Air Quality Index (AQI)</span>
+          <div class="flex flex-wrap gap-4 mt-2 text-gray-700">
+            <div>CO: <span id="co">-</span></div>
+            <div>SO₂: <span id="so2">-</span></div>
+            <div>O₃: <span id="o3">-</span></div>
+            <div>NO₂: <span id="no2">-</span></div>
+          </div>
+        </div>
+        <div class="bg-white bg-opacity-80 rounded-xl shadow p-6 flex-1 flex flex-col min-h-[120px]">
+          <span class="font-semibold text-gray-600 mb-2">Sunrise & Sunset</span>
+          <div class="flex justify-between mt-2 text-gray-700">
+            <div>
+              <span>🌅 Sunrise</span>
+              <div id="sunrise" class="font-bold">-</div>
+            </div>
+            <div>
+              <span>🌙 Sunset</span>
+              <div id="sunset" class="font-bold">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white bg-opacity-80 rounded-xl shadow p-6 flex flex-col min-h-[140px]">
+        <span class="font-semibold text-gray-600 mb-3">Today</span>
+        <div id="hourly-weather" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+      </div>
+    </section>
+  </main>
     
 
     <script src="script.js"></script>
