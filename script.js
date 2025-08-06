@@ -144,3 +144,19 @@
       const city = searchBar.value.trim();
       validateAndFetch(city);
     });
+
+      /* ==================== Current Location Button ==================== */
+    currentLocBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        showPopup("Geolocation not supported by your browser.", true);
+        return;
+      }
+      setLoadingState(true);
+      navigator.geolocation.getCurrentPosition(
+        pos => fetchWeatherByCoords(pos.coords.latitude, pos.coords.longitude),
+        () => {
+          showPopup("Unable to retrieve your location.", true);
+          setLoadingState(false);
+        }
+      );
+    });
