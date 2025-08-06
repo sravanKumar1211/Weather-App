@@ -368,3 +368,21 @@
       dynamicBg.style.background = bg;
       dynamicBg.innerHTML = iconSvg;
     }
+
+    /* ==================== Loading State ==================== */
+    function setLoadingState(busy) {
+      submitBtn.disabled = busy;
+      currentLocBtn.disabled = busy;
+      submitBtn.textContent = busy ? "Loading..." : "Search";
+      // Optional: could also change cursor styles here if desired
+    }
+
+
+    /* ==================== Initialization ==================== */
+    function initialize() {
+      setEl('date', new Date().toLocaleDateString('en-IN', { year: "numeric", month: "2-digit", day: "2-digit" }));
+      updateRecentDropdown();
+    }
+
+    /* ==================== Start ==================== */
+    initialize();
