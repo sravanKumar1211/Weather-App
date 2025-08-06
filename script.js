@@ -99,3 +99,27 @@
       });
       dropdown.style.display = "block";
     }
+
+
+    /* ==================== Dropdown show/hide (hover only) ==================== */
+    let dropdownTimeout;
+    searchBar.addEventListener('mouseenter', () => {
+      updateRecentDropdown();
+      dropdown.style.display = 'block';
+      if (dropdownTimeout) clearTimeout(dropdownTimeout);
+    });
+    searchBar.addEventListener('mouseleave', () => {
+      dropdownTimeout = setTimeout(() => dropdown.style.display = 'none', 150);
+    });
+    dropdown.addEventListener('mouseenter', () => {
+      if (dropdownTimeout) clearTimeout(dropdownTimeout);
+      dropdown.style.display = 'block';
+    });
+    dropdown.addEventListener('mouseleave', () => {
+      dropdownTimeout = setTimeout(() => dropdown.style.display = 'none', 150);
+    });
+    // Hide dropdown on click outside
+    document.addEventListener('mousedown', e => {
+      if (!searchBar.contains(e.target) && !dropdown.contains(e.target))
+        dropdown.style.display = 'none';
+    });
