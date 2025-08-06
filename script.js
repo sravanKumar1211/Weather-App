@@ -53,3 +53,13 @@
       if (icon.startsWith("50")) return "🌫️";
       return "🌈";
     }
+//popups
+     function showPopup(msg, error = false) {
+      popup.textContent = msg;
+      popup.style.display = 'block';
+      popup.style.background = error ? '#fee' : '#f9fafb';
+      popup.style.color = error ? '#b91c1c' : '#2563eb';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 3500);
+    }
