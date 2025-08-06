@@ -256,3 +256,22 @@
       formatTempUnit();
       checkWeatherAlerts(data);
     }
+
+     function renderHourly(hours) {
+      const container = document.getElementById('hourly-weather');
+      container.innerHTML = '';
+      if (!hours.length) {
+        container.innerHTML = `<div>No data.</div>`;
+        return;
+      }
+      hours.forEach(item => {
+        const time = new Date(item.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const tempVal = tempUnit === 'C' ? Math.round(item.main.temp) : Math.round(cToF(item.main.temp));
+        const emoji = getWeatherEmoji(item.weather[0].icon);
+
+        const block = document.createElement('div');
+        block.className = "flex flex-col items-center";
+        block.innerHTML = `<span>${time}</span><span>${tempVal}°${tempUnit}</span><span>${emoji}</span>`;
+        container.appendChild(block);
+      });
+    }
