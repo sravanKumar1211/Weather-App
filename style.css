@@ -1,74 +1,116 @@
+/* === Base body styling === */
+body {
+    height: 100%;
+    /* Ensure the body takes full height */
+    margin: 0;
+    /* Remove default margin */
+    padding: 0;
+    /* Remove default padding */
+}
+
+/* === Dropdown menu styling === */
+.dropdown-menu {
+    z-index: 30;
+    /* Keeps dropdown above most elements */
+    transition: opacity 0.15s;
+    /* Smooth fade effect */
+    border-radius: 0.5rem;
+    /* Rounded corners */
+}
 
 
- body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    .dropdown-menu {
-      z-index: 30;
-      transition: opacity 0.15s;
-      border-radius: 0.5rem;
-    }
-
-    .dynamic-bg {
+/* === Full-screen dynamic background layer === */
+.dynamic-bg {
     position: absolute;
+    /* Position behind everything */
     top: 0;
     left: 0;
     width: 100vw;
+    /* Full viewport width */
     height: 100vh;
+    /* Full viewport height */
     z-index: -1;
+    /* Pushes this layer behind all content */
     overflow: hidden;
+    /* Hides overflowed background elements */
     pointer-events: none;
-    }
+    /* Prevents background from blocking interactions */
+}
 
-    .bg-icon {
+
+
+/* === Background icon (e.g., cloud) positioning and styling === */
+.bg-icon {
     position: absolute;
     top: 10%;
+    /* Position icon 10% from the top */
     left: 50%;
+    /* Center icon horizontally */
     transform: translateX(-50%);
+    /* Perfect horizontal center adjustment */
     width: 300px;
+    /* Icon width */
     height: auto;
+    /* Maintain aspect ratio */
     opacity: 0.3;
-    }
+    /* Faint appearance */
+}
 
-    .popup {
-      position: fixed;
-      left: 50%;
-      top: 20px;
-      transform: translateX(-50%);
-      min-width: 240px;
-      max-width: 90vw;
-      background: #fff;
-      color: #333;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
-      padding: 1rem 1.5rem;
-      font-weight: 500;
-      display: none;
-      z-index: 100;
-      animation: fadeout 1s linear 3s forwards;
-    }
+/* === Popup message box styling === */
+.popup {
+    position: fixed;
+    left: 50%;
+    top: 20px;
+    /* Show popup near the top center */
+    transform: translateX(-50%);
+    min-width: 240px;
+    max-width: 90vw;
+    background: #fff;
+    /* White background */
+    color: #333;
+    /* Dark text */
+    border-radius: 0.5rem;
+    /* Rounded corners */
+    box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    padding: 1rem 1.5rem;
+    /* Inner spacing */
+    font-weight: 500;
+    display: none;
+    /* Hidden by default */
+    z-index: 100;
+    /* Appear above all elements */
+    animation: fadeout 1s linear 3s forwards;
+    /* Fade out after 3s */
+}
 
-    @keyframes fadeout {
-      to {
+/* === Fade-out animation for popup === */
+@keyframes fadeout {
+    to {
         opacity: 0;
+        /* Gradually make transparent */
         pointer-events: none;
-      }
+        /* Disable interaction when hidden */
     }
+}
 
-    /* Scrollbar styling for recent cities */
-    #recent-cities {
-      max-height: 200px;
-      overflow-y: auto;
-    }
+/* === Styling for recent cities scrollable box === */
+#recent-cities {
+    max-height: 200px;
+    /* Limit box height */
+    overflow-y: auto;
+    /* Enable vertical scroll */
+}
 
-    #recent-cities::-webkit-scrollbar {
-      width: 6px;
-    }
+/* === Custom scrollbar styling === */
+#recent-cities::-webkit-scrollbar {
+    width: 6px;
+    /* Thin scrollbar */
+}
 
-    #recent-cities::-webkit-scrollbar-thumb {
-      background-color: #94a3b8;
-      border-radius: 4px;
-    }
+#recent-cities::-webkit-scrollbar-thumb {
+    background-color: #94a3b8;
+    /* Soft gray-blue thumb color */
+    border-radius: 4px;
+    /* Rounded scrollbar thumb */
+}
