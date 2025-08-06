@@ -63,3 +63,39 @@
         popup.style.display = 'none';
       }, 3500);
     }
+
+    
+    /* ==================== Recent Searches ==================== */
+    function getRecentCities() {
+      return JSON.parse(localStorage.getItem("recentCities") || '[]');
+    }
+    function saveRecentCity(city) {
+      city = city.trim();
+      if (!city) return;
+      let recents = getRecentCities().filter(c => c.toLowerCase() !== city.toLowerCase());
+      recents.unshift(city);
+      recents = recents.slice(0, 5);
+      localStorage.setItem("recentCities", JSON.stringify(recents));
+      updateRecentDropdown();
+    }
+    function updateRecentDropdown() {
+      recentCitiesBox.innerHTML = '';
+      let arr = getRecentCities();
+      if (arr.length === 0) {
+        dropdown.style.display = "none";
+        return;
+      }
+      arr.forEach(city => {
+        let btn = document.createElement('div');
+        btn.className = "px-4 py-2 hover:bg-blue-100 text-gray-700 cursor-pointer";
+        btn.tabIndex = 0;
+        btn.textContent = city;
+        btn.onclick = () => {
+          searchBar.value = city;
+          hideDropdown();
+          validateAndFetch(city);
+        };
+        recentCitiesBox.appendChild(btn);
+      });
+      dropdown.style.display = "block";
+    }
