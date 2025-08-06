@@ -299,3 +299,16 @@
     function capitalizeFirstLetter(text) {
       return text.charAt(0).toUpperCase() + text.slice(1);
     }
+
+      /* ==================== Temperature Unit Toggle ==================== */
+    tempToggle.addEventListener('input', () => {
+      tempUnit = tempToggle.checked ? 'F' : 'C';
+      formatTempUnit();
+      if (lastWeatherData) renderMainWeather(lastWeatherData);
+      if (lastForecast && lastWeatherData)
+        fetchForecast(lastWeatherData.coord.lat, lastWeatherData.coord.lon);
+    });
+
+    function formatTempUnit() {
+      unitSign.textContent = tempUnit === 'C' ? '°C' : '°F';
+    }
