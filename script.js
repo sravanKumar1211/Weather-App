@@ -294,3 +294,8 @@
         container.appendChild(block);
       });
     }
+
+    /* ==================== Helper for alert text ==================== */
+    function capitalizeFirstLetter(text) {
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
