@@ -312,3 +312,23 @@
     function formatTempUnit() {
       unitSign.textContent = tempUnit === 'C' ? '°C' : '°F';
     }
+
+    /* ==================== Weather Alerts ==================== */
+    function checkWeatherAlerts(data) {
+      const mainTempC = kelvinToC(data.main.temp);
+      const windSpeed = data.wind?.speed;
+      const description = (data.weather?.[0]?.description || "").toLowerCase();
+      let message = "";
+      if (mainTempC > 40) message = "🥵 Heat Alert: It's above 40°C!";
+      else if (mainTempC < 5) message = "🧊 Cold Alert: Chilly weather!";
+      else if (description.includes("rain") || description.includes("shower")) message = "🌧️ Rain Alert: Carry an umbrella!";
+      else if ((description.includes("storm") || windSpeed > 10)) message = "💨 Stormy or strong winds!";
+      else if (description.includes("snow")) message = "❄️ Snow Alert!";
+      if (message) {
+        customAlert.textContent = message;
+        customAlert.classList.remove('hidden');
+      } else {
+        customAlert.textContent = "";
+        customAlert.classList.add('hidden');
+      }
+    }
