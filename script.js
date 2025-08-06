@@ -239,3 +239,20 @@
         renderForecast(days);
       } catch { /* fail silently */ }
     }
+
+
+     /* ==================== Render Functions ==================== */
+    function renderMainWeather(data) {
+      setEl('city-name', data.name || '-');
+      setEl('temperature', formatTemp(data.main.temp));
+      setEl('weatherDesc', capitalizeFirstLetter(data.weather[0].description));
+      setEl('humidity', data.main.humidity + '%');
+      setEl('pressure', data.main.pressure + ' hPa');
+      setEl('feelslike', formatTemp(data.main.feels_like));
+      setEl('visibility', formatVisibility(data.visibility));
+      setEl('sunrise', unixToTime(data.sys.sunrise));
+      setEl('sunset', unixToTime(data.sys.sunset));
+      setEl('date', (new Date()).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' }));
+      formatTempUnit();
+      checkWeatherAlerts(data);
+    }
