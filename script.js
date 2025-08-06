@@ -275,3 +275,22 @@
         container.appendChild(block);
       });
     }
+
+       function renderForecast(daysObj) {
+      const container = document.getElementById('forecast-list');
+      container.innerHTML = '';
+      const keys = Object.keys(daysObj);
+      const today = new Date().toISOString().split('T')[0];
+
+      keys.filter(d => d !== today).slice(0, 5).forEach(date => {
+        const dayData = daysObj[date];
+        const dispDate = new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: '2-digit', day: '2-digit' });
+        const tempDisplay = tempUnit === 'C' ? dayData.temp.toFixed(1) : cToF(dayData.temp).toFixed(1);
+        const icon = getWeatherEmoji(dayData.icon);
+
+        const block = document.createElement('div');
+        block.className = "flex items-center justify-between text-gray-700";
+        block.innerHTML = `<span>${dispDate}</span><span>${tempDisplay}°${tempUnit} | ${icon}</span>`;
+        container.appendChild(block);
+      });
+    }
