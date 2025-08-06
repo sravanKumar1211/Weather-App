@@ -123,3 +123,9 @@
       if (!searchBar.contains(e.target) && !dropdown.contains(e.target))
         dropdown.style.display = 'none';
     });
+
+    
+    /* ==================== Search Input Handling ==================== */
+    searchBar.addEventListener('keydown', e => {
+      if (e.key === 'Enter') submitBtn.click();
+    });
