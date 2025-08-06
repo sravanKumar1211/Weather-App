@@ -332,3 +332,39 @@
         customAlert.classList.add('hidden');
       }
     }
+
+
+
+    /* ==================== Dynamic Background ==================== */
+    function setWeatherBg(data) {
+      const main = (data.weather?.[0]?.main || "").toLowerCase();
+      let bg = "#e2e8f0"; // neutral base
+      let iconSvg = '';
+
+      if (main.includes('cloud')) {
+        bg = "linear-gradient(120deg,#c9d6ff 0%,#e2e8f0 100%)";
+        iconSvg = `<svg class="bg-icon" width="280" height="180" viewBox="0 0 250 160"><ellipse cx="85" cy="90" rx="70" ry="40" fill="#cfd8dc"/><ellipse cx="155" cy="70" rx="60" ry="30" fill="#b0bec5"/></svg>`;
+        
+    } else if (main.includes('rain') || main.includes('drizzle')) {
+        bg = "linear-gradient(135deg,#577abf,#c6d4f7 100%)";
+        iconSvg = `<svg class="bg-icon" width="340" height="180" viewBox="0 0 310 124"><ellipse cx="120" cy="80" rx="90" ry="45" fill="#b9e2fa"/><ellipse cx="220" cy="62" rx="55" ry="28" fill="#90caf9"/><g><rect x="100" y="100" width="8" height="32" fill="#3366bb" rx="4"/><rect x="140" y="110" width="8" height="18" fill="#5690d6" rx="4"/><rect x="196" y="90" width="8" height="20" fill="#354fd6" rx="4"/></g></svg>`;
+      } else if (main.includes('clear')) {
+        bg = "linear-gradient(120deg,#ffe29f 0%,#ffc942 100%)";
+        iconSvg = `<svg class="bg-icon" width="220" height="220" viewBox="0 0 200 200"><circle cx="110" cy="95" r="60" fill="#fbc02d"/></svg>`;
+      } else if (main.includes('snow')) {
+        bg = "linear-gradient(140deg,#ece9f6,#e0ecf9 70%)";
+        iconSvg = `<svg class="bg-icon" width="140" height="140"><circle cx="70" cy="65" r="39" fill="#e1f5fe"/><circle cx="110" cy="100" r="18" fill="#fffde7"/></svg>`;
+      } else if (main.includes('mist') || main.includes('fog') || kelvinToC(data.main.temp) < 5) {
+        bg = "linear-gradient(110deg,#dee8f6,#b7c0c8 90%)";
+        iconSvg = "";
+      } else if (kelvinToC(data.main.temp) > 38) {
+        bg = "linear-gradient(90deg,#fbd786 0%,#f7797d 100%)";
+        iconSvg = `<svg class="bg-icon" width="260" height="130" viewBox="0 0 220 100"><ellipse cx="100" cy="60" rx="80" ry="35" fill="#ffd600"/></svg>`;
+      } else {
+        bg = "linear-gradient(100deg,#edf2f7 0%,#e2e8f0 100%)";
+        iconSvg = '';
+      }
+
+      dynamicBg.style.background = bg;
+      dynamicBg.innerHTML = iconSvg;
+    }
