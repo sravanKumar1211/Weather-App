@@ -16,3 +16,29 @@
     let lastWeatherData = null,
       lastForecast = null;
     let tempUnit = 'C';
+
+     /* ==================== Utilities ==================== */
+    function setEl(id, val) {
+      document.getElementById(id).innerText = val;
+    }
+    function kelvinToC(k) {
+      return k - 273.15;
+    }
+    function cToF(c) {
+      return c * 9 / 5 + 32;
+    }
+    function formatTemp(k) {
+      let c = kelvinToC(k);
+      return tempUnit === 'C' ? c.toFixed(1) : cToF(c).toFixed(1);
+    }
+    function formatVisibility(m) {
+      return m >= 1000 ? (m / 1000).toFixed(1) + ' km' : m + ' m';
+    }
+    function unixToTime(unix) {
+      const d = new Date(unix * 1000);
+      let h = d.getHours(),
+        m = String(d.getMinutes()).padStart(2, "0");
+      const ampm = h >= 12 ? "PM" : "AM";
+      h = (h % 12) || 12;
+      return `${h}:${m} ${ampm}`;
+    }
