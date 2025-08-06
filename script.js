@@ -1,8 +1,8 @@
-
-    /* ==================== Config API ==================== */
+/*Config API  */
+// If code not running then use "Your OpenWeatherMap API key "
     const API_KEY = 'ef162e8dd46f197be49eacffba4c775e'; 
 
-    /* ==================== Elements ==================== */
+    // DOM elements used throughout the application
     const searchBar = document.getElementById('search-bar');
     const submitBtn = document.getElementById('submit');
     const currentLocBtn = document.getElementById('current-loc');
@@ -13,27 +13,33 @@
     const unitSign = document.getElementById('unitsign');
     const customAlert = document.getElementById('custom-alert');
     const dynamicBg = document.getElementById('dynamic-bg');
+    // Stores previously fetched weather and forecast data
     let lastWeatherData = null,
-      lastForecast = null;
-    let tempUnit = 'C';
+        lastForecast = null;
+    let tempUnit = 'C';// Default temperature unit
 
-     /* ==================== Utilities ==================== */
+     // Helper to set text content of any element by ID
     function setEl(id, val) {
       document.getElementById(id).innerText = val;
     }
+    // Converts temperature from Kelvin to Celsius
     function kelvinToC(k) {
       return k - 273.15;
     }
+    // Converts Celsius to Fahrenheit
     function cToF(c) {
       return c * 9 / 5 + 32;
     }
+    // Formats temperature value based on selected unit
     function formatTemp(k) {
       let c = kelvinToC(k);
       return tempUnit === 'C' ? c.toFixed(1) : cToF(c).toFixed(1);
     }
+    // Converts visibility in meters to readable string (meters or km)
     function formatVisibility(m) {
       return m >= 1000 ? (m / 1000).toFixed(1) + ' km' : m + ' m';
     }
+    // Converts Unix timestamp to 12-hour time format
     function unixToTime(unix) {
       const d = new Date(unix * 1000);
       let h = d.getHours(),
@@ -42,7 +48,7 @@
       h = (h % 12) || 12;
       return `${h}:${m} ${ampm}`;
     }
-
+    // Returns appropriate emoji based on weather icon code
     function getWeatherEmoji(icon) {
       if (icon.startsWith("01")) return "☀️";
       if (icon.startsWith("02")) return "⛅";
@@ -53,7 +59,8 @@
       if (icon.startsWith("50")) return "🌫️";
       return "🌈";
     }
-//popups
+    
+// Displays a temporary notification (popup) message
      function showPopup(msg, error = false) {
       popup.textContent = msg;
       popup.style.display = 'block';
@@ -65,10 +72,12 @@
     }
 
     
-    /* ==================== Recent Searches ==================== */
+    
+    // Retrieves recent city searches from local storage
     function getRecentCities() {
       return JSON.parse(localStorage.getItem("recentCities") || '[]');
     }
+    // Saves a city to recent searches (max 5 entries, unique)
     function saveRecentCity(city) {
       city = city.trim();
       if (!city) return;
@@ -78,6 +87,7 @@
       localStorage.setItem("recentCities", JSON.stringify(recents));
       updateRecentDropdown();
     }
+    // Updates the dropdown list of recent cities
     function updateRecentDropdown() {
       recentCitiesBox.innerHTML = '';
       let arr = getRecentCities();
@@ -101,7 +111,7 @@
     }
 
 
-    /* ==================== Dropdown show/hide (hover only) ==================== */
+    // Handle showing/hiding recent dropdown on hover
     let dropdownTimeout;
     searchBar.addEventListener('mouseenter', () => {
       updateRecentDropdown();
@@ -124,13 +134,12 @@
         dropdown.style.display = 'none';
     });
 
-    
-    /* ==================== Search Input Handling ==================== */
+    // Allows pressing Enter to trigger search
     searchBar.addEventListener('keydown', e => {
       if (e.key === 'Enter') submitBtn.click();
     });
 
-    /* ==================== Validate & Fetch ==================== */
+    // When search is clicked, validate and fetch data
     function validateAndFetch(city) {
       if (!city || city.trim().length < 2) {
         showPopup("Please enter a valid city name.", true);
@@ -139,7 +148,8 @@
       fetchWeatherByCity(city.trim());
     }
 
-    /* ==================== Search Button ==================== */
+    
+    // Gets user's current location and fetches weather for it
     submitBtn.addEventListener('click', () => {
       const city = searchBar.value.trim();
       validateAndFetch(city);
@@ -161,7 +171,8 @@
       );
     });
 
-     /* ==================== Fetch Functions ==================== */
+     // Fetch Functions 
+     // Fetch current weather by city name
     async function fetchWeatherByCity(city) {
       setLoadingState(true);
       try {
@@ -180,7 +191,7 @@
       }
       setLoadingState(false);
     }
-
+    // Fetch current weather by geolocation coordinates
     async function fetchWeatherByCoords(lat, lon) {
       setLoadingState(true);
       try {
@@ -200,7 +211,7 @@
       }
       setLoadingState(false);
     }
-
+    // Fetch pollution data (CO, SO2, O3, NO2)
     async function fetchDetails(lat, lon) {
       try {
         const pollutionResp = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
@@ -214,7 +225,7 @@
         }
       } catch { /* fail silently */ }
     }
-
+    // Fetch 5-day forecast and render
     async function fetchForecast(lat, lon) {
       try {
         const forecastResp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
@@ -223,7 +234,7 @@
         const today = new Date().toISOString().split('T')[0];
         const todayForecasts = forecastData.list.filter(f => f.dt_txt.startsWith(today)).slice(0, 6);
         renderHourly(todayForecasts);
-
+         // Extract highest temp for each day
         let days = {};
         forecastData.list.forEach(item => {
           const date = item.dt_txt.split(' ')[0];
@@ -241,7 +252,7 @@
     }
 
 
-     /* ==================== Render Functions ==================== */
+    // Show current weather data in UI
     function renderMainWeather(data) {
       setEl('city-name', data.name || '-');
       setEl('temperature', formatTemp(data.main.temp));
@@ -257,6 +268,7 @@
       checkWeatherAlerts(data);
     }
 
+    // Display hourly forecast in a scrollable format
      function renderHourly(hours) {
       const container = document.getElementById('hourly-weather');
       container.innerHTML = '';
@@ -275,7 +287,7 @@
         container.appendChild(block);
       });
     }
-
+        // Display 5-day daily forecast summary
        function renderForecast(daysObj) {
       const container = document.getElementById('forecast-list');
       container.innerHTML = '';
@@ -295,12 +307,12 @@
       });
     }
 
-    /* ==================== Helper for alert text ==================== */
+    // Capitalizes first letter of weather description
     function capitalizeFirstLetter(text) {
       return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
-      /* ==================== Temperature Unit Toggle ==================== */
+      //Temperature Unit Toggle 
     tempToggle.addEventListener('input', () => {
       tempUnit = tempToggle.checked ? 'F' : 'C';
       formatTempUnit();
@@ -313,7 +325,7 @@
       unitSign.textContent = tempUnit === 'C' ? '°C' : '°F';
     }
 
-    /* ==================== Weather Alerts ==================== */
+    // Weather Alerts 
     function checkWeatherAlerts(data) {
       const mainTempC = kelvinToC(data.main.temp);
       const windSpeed = data.wind?.speed;
@@ -335,12 +347,13 @@
 
 
 
-    /* ==================== Dynamic Background ==================== */
+    // Adjusts background based on weather type
     function setWeatherBg(data) {
       const main = (data.weather?.[0]?.main || "").toLowerCase();
-      let bg = "#e2e8f0"; // neutral base
+      let bg = "#e2e8f0"; // default bg
       let iconSvg = '';
 
+      // Adjust background and SVG icon by weather condition
       if (main.includes('cloud')) {
         bg = "linear-gradient(120deg,#c9d6ff 0%,#e2e8f0 100%)";
         iconSvg = `<svg class="bg-icon" width="280" height="180" viewBox="0 0 250 160"><ellipse cx="85" cy="90" rx="70" ry="40" fill="#cfd8dc"/><ellipse cx="155" cy="70" rx="60" ry="30" fill="#b0bec5"/></svg>`;
